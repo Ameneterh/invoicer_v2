@@ -6,9 +6,9 @@ export const generateTokenAndSetCookie = (res, userId) => {
   });
 
   res.cookie("token", token, {
-    httpOnly: process.env.MODE_ENV === "production",
-    secure: false, //process.env.MODE_ENV === "production",
-    sameSite: process.env.MODE_ENV === "production" ? "None" : "Lax",
+    httpOnly: true,
+    secure: process.env.MODE_ENV === "production",
+    sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
