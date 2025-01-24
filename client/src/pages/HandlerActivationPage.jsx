@@ -63,7 +63,7 @@ export default function HandlerActivationPage() {
   };
 
   return (
-    <div className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center w-full">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,7 +71,7 @@ export default function HandlerActivationPage() {
         className="bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-md"
       >
         <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
-          Verify Your Email
+          Activate Added User
         </h2>
         <p className="text-center text-gray-300 mb-6">
           Enter the 6-digit code sent to your email address.
@@ -100,7 +100,7 @@ export default function HandlerActivationPage() {
             disabled={isLoading || code.some((digit) => !digit)}
             className="mt-5 w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-500 font-semibold rounded-lg hover:from-green-600 hover:to-emerald-700 border border-green-700 focus:outline-none focus:ring-1 focus:ring-green-500 focus:ring-offset-1 focus:ring-offset-gray-900 transition duration-200 cursor-pointer flex items-center justify-center disabled:opacity-50"
           >
-            {isLoading ? "Verifying..." : "Verify Email"}
+            {isLoading ? "Activating..." : "Activate Handler"}
           </motion.button>
         </form>
       </motion.div>

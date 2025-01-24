@@ -23,6 +23,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore.js";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import UserDashboard from "./pages/UserDashboard.jsx";
+import CreateInvoice from "./pages/CreateInvoice.jsx";
 
 // protected routes
 const ProtectedRoute = ({ children }) => {
@@ -64,7 +66,7 @@ function App() {
   if (isCheckingAuth) return <Spinner />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-green-900 to-emerald-900 flex relative overflow-hidden">
       <FloatingShapes
         color="bg-green-500"
         size="w-64 h-64"
@@ -89,17 +91,28 @@ function App() {
 
       {/* routes */}
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<HomePage />} />
         <Route path="/verify-email" element={<EmailVerificationPage />} />
         <Route path="/activate-handler" element={<HandlerActivationPage />} />
         <Route path="*" element={<NotFoundPage />} />
+
+        {/* protected routes */}
+        <Route
+          path="/user-dashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-invoice"
+          element={
+            <ProtectedRoute>
+              <CreateInvoice />
+            </ProtectedRoute>
+          }
+        />
 
         {/* private routes for only authenticated users */}
         <Route
