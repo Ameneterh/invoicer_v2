@@ -27,10 +27,15 @@ li {
 
 input,
 select {
-  min-height: 42px;
+  /* min-height: 42px; */
   border: 1px solid rgb(212, 212, 212);
   border-radius: 5px !important;
   /* width: 100%; */
+}
+
+.max-width {
+  height: 8px !important;
+  width: 8px !important;
 }
 
 .search {
@@ -43,7 +48,7 @@ select {
 
 input:focus,
 select:focus {
-  min-height: 42px;
+  /* min-height: 42px; */
   border: 1px solid rgb(134, 134, 134);
   border-radius: 5px !important;
   box-shadow: none !important;

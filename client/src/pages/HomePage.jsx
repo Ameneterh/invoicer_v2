@@ -19,9 +19,9 @@ export default function HomePage() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.5 }}
-        className="max-w-7xl w-full mx-auto mt-2 p-4 bg-gray-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl border border-gray-800"
+        className="max-w-7xl min-h-screen w-full mx-auto mt-2 p-4 bg-gray-400 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl border border-gray-800"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-600 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-950 to-black text-transparent bg-clip-text">
           Home Page
         </h2>
 

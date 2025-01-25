@@ -7,6 +7,8 @@ import path from "path";
 import dbConnection from "./config/dbConfig.js";
 import businessRouter from "./routes/business.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import clientRouter from "./routes/client.routes.js";
+import invoiceRouter from "./routes/invoice.routes.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +21,8 @@ app.use(cookieParser());
 
 app.use("/server/auth", authRouter);
 app.use("/server/business", businessRouter);
+app.use("/server/client", clientRouter);
+app.use("/server/invoice", invoiceRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/dist")));

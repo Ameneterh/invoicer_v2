@@ -148,7 +148,7 @@ export default function DashProfile() {
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
-      <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
+      <h1 className="sm:my-7 text-center font-semibold text-3xl">Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
@@ -207,26 +207,30 @@ export default function DashProfile() {
             setFormData({ ...formData, fullname: e.target.value })
           }
         />
-        <TextInput
-          type="email"
-          id="email"
-          placeholder="user@company.com"
-          defaultValue={user.user_email}
-          onChange={(e) =>
-            setFormData({ ...formData, user_email: e.target.value })
-          }
-        />
+        <div className="flex items-center flex-col sm:flex-row justify-between gap-3">
+          <TextInput
+            type="email"
+            id="email"
+            placeholder="user@company.com"
+            className="flex-1 w-full"
+            defaultValue={user.user_email}
+            onChange={(e) =>
+              setFormData({ ...formData, user_email: e.target.value })
+            }
+          />
 
-        {/* </div> */}
-        <TextInput
-          type="password"
-          id="password"
-          placeholder="Your Password"
-          // defaultValue={user.user_password}
-          onChange={(e) =>
-            setFormData({ ...formData, user_password: e.target.value })
-          }
-        />
+          {/* </div> */}
+          <TextInput
+            type="password"
+            id="password"
+            placeholder="Your Password"
+            className="flex-1 w-full"
+            // defaultValue={user.user_password}
+            onChange={(e) =>
+              setFormData({ ...formData, user_password: e.target.value })
+            }
+          />
+        </div>
 
         <Button
           type="submit"

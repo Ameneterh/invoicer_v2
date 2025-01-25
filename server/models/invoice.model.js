@@ -5,16 +5,20 @@ const invoiceSchema = new mongoose.Schema(
     inv_number: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
     },
     items: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
     },
     staff: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Business",
     },
     client: {
       type: mongoose.Schema.Types.ObjectId,

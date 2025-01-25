@@ -20,6 +20,8 @@ export default function AddHandler() {
   const { addUser, error, isLoading } = useAuthStore();
   const { getAllBusinesses } = useBusinessStore();
 
+  console.log(businesses);
+
   const handleRegisterHandler = async (e) => {
     e.preventDefault();
 

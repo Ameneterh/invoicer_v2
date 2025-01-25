@@ -44,7 +44,7 @@ export default function DashSidebar() {
 
   return (
     // <div className="min-h-screen w-full">
-    <Sidebar className="w-full bg-transparent min-h-screen">
+    <Sidebar className="w-full bg-transparent sm:min-h-screen">
       <Sidebar.Items className="">
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           {user && (
