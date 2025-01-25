@@ -15,6 +15,8 @@ import MainLayout from "../layout/MainLayout";
 import { useAuthStore } from "../store/authStore";
 import { useClientStore } from "../store/clientStore";
 import { useInvoiceStore } from "../store/invoiceStore";
+import { Input, InvInput } from "../components/Input";
+import { Mail } from "lucide-react";
 
 export default function CreateInvoice() {
   const { user } = useAuthStore();
@@ -162,8 +164,8 @@ export default function CreateInvoice() {
           <>
             <div className="flex flex-col justify-center gap-y-5">
               {/* client details */}
-              <article className="flex flex-col gap-y-3 px-5 border-2 rounded">
-                <div className="flex items-center gap-2">
+              <article className="flex flex-col gap-y-3 px-5 border border-gray-300 rounded">
+                <div className="flex items-center gap-2 mt-3">
                   <h1 className="text-xl font-bold">Enter Client Details</h1>
                   <p className="flex-1 h-[1px] bg-slate-500"></p>
                 </div>
@@ -198,7 +200,8 @@ export default function CreateInvoice() {
                     <label htmlFor="client_name" className="text-sm mb-1">
                       Enter Client's Name
                     </label>
-                    <input
+                    <InvInput
+                      icon={Mail}
                       type="text"
                       name="client_name"
                       id="client_name"
@@ -208,7 +211,6 @@ export default function CreateInvoice() {
                           : "Enter Client Name"
                       }
                       autoComplete="off"
-                      className="p-2"
                       value={client.length !== 0 ? client.client_name : name}
                       onChange={(e) => setName(e.target.value)}
                       required
@@ -220,13 +222,13 @@ export default function CreateInvoice() {
                     <label htmlFor="client_phone" className="text-sm mb-1">
                       Enter Client's Phone
                     </label>
-                    <input
+                    <InvInput
+                      icon={Mail}
                       type="text"
                       name="client_phone"
                       id="client_phone"
                       placeholder="Enter Client Phone"
                       autoComplete="off"
-                      className="p-2"
                       value={client.length !== 0 ? client.client_phone : phone}
                       onChange={(e) => setPhone(e.target.value)}
                       disabled={isChecked}
@@ -236,7 +238,8 @@ export default function CreateInvoice() {
                     <label htmlFor="client_email" className="text-sm mb-1">
                       Enter Client's Email
                     </label>
-                    <input
+                    <InvInput
+                      icon={Mail}
                       type="text"
                       name="client_email"
                       id="client_email"
@@ -254,13 +257,13 @@ export default function CreateInvoice() {
                   <label htmlFor="client_address" className="text-sm mb-1">
                     Enter Client's Address
                   </label>
-                  <textarea
+                  <InvInput
+                    icon={Mail}
                     rows={2}
                     name="client_address"
                     id="client_address"
                     placeholder="Enter Client Address"
                     autoComplete="off"
-                    className="p-2"
                     value={
                       client.length !== 0 ? client.client_address : address
                     }
@@ -271,19 +274,19 @@ export default function CreateInvoice() {
               </article>
 
               {/* invoice details */}
-              <article className="flex flex-col gap-y-3 px-5 border-2 rounded">
-                <div className="md:grid grid-cols-4 gap-10">
+              <article className="flex flex-col gap-y-3 px-5 border border-gray-300 rounded">
+                <div className="md:grid grid-cols-4 gap-10 mt-3">
                   <div className="flex flex-col flex-1">
                     <label htmlFor="inv_number" className="text-sm mb-1">
                       Invoice Number
                     </label>
-                    <input
+                    <InvInput
+                      icon={Mail}
                       type="text"
                       name="inv_number"
                       id="inv_number"
                       placeholder="Invoice Number"
                       autoComplete="off"
-                      className={`p-2 bg-gray-200`}
                       value={(invoices.length + 1).toString().padStart(6, "0")}
                       onChange={(e) => setInvNumber(e.target.value)}
                       disabled
@@ -293,7 +296,8 @@ export default function CreateInvoice() {
                     <label htmlFor="inv_date" className="text-sm mb-1">
                       Invoice Date
                     </label>
-                    <input
+                    <InvInput
+                      icon={Mail}
                       type="date"
                       name="inv_date"
                       id="inv_date"
@@ -327,13 +331,13 @@ export default function CreateInvoice() {
                       <label htmlFor="validity" className="text-sm mb-1">
                         Validity Period (Days)
                       </label>
-                      <input
+                      <InvInput
+                        icon={Mail}
                         type="number"
                         name="validity"
                         id="validity"
                         placeholder="Validity Period (Days)"
                         autoComplete="off"
-                        className="p-2"
                         value={validity}
                         onChange={(e) => setValidity(e.target.value)}
                       />
