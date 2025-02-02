@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Input } from "../components/Input";
-import { Mail, Lock, Loader, MapPinHouse } from "lucide-react";
+import { Mail, Lock, Loader, MapPinHouse, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
@@ -8,6 +8,7 @@ import { useAuthStore } from "../store/authStore";
 export default function LoginPage() {
   const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(false);
   const [user_email, setEmail] = useState("");
   const [user_password, setPassword] = useState("");
   const { isLoading, login, error } = useAuthStore();
@@ -29,14 +30,14 @@ export default function LoginPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-md mx-auto w-full bg-slate-700 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-lg shadow-xl overflow-hidden my-10"
+        className="max-w-md mx-auto w-full bg-green-950 bg-opacity-80 backdrop-filter backdrop-blur-xl rounded-lg shadow-xl overflow-hidden my-10"
       >
         <div className="p-8">
           <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to bg-emerald-500 text-transparent bg-clip-text">
             Welcome Back!
           </h2>
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <Input
               icon={Mail}
               type="email"
@@ -44,13 +45,25 @@ export default function LoginPage() {
               value={user_email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <Input
-              icon={Lock}
-              type="password"
-              placeholder="Enter Strong Password"
-              value={user_password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="relative flex items-center w-full">
+              <Input
+                icon={Lock}
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter Strong Password"
+                value={user_password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <div
+                className="absolute right-2 inset-y-0 cursor-pointer flex items-center"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="size-5 text-green-500" />
+                ) : (
+                  <Eye className="size-5 text-green-500" />
+                )}
+              </div>
+            </div>
 
             <div>
               <Link

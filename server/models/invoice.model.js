@@ -1,16 +1,15 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const invoiceSchema = new mongoose.Schema(
   {
     inv_number: {
       type: String,
       required: true,
-      // unique: true,
+      unique: true,
     },
-    items: {
+    inv_copy: {
       type: String,
       required: true,
-      // unique: true,
     },
     staff: {
       type: mongoose.Schema.Types.ObjectId,

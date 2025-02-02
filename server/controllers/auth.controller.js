@@ -75,6 +75,70 @@ export const addHandler = async (req, res) => {
   }
 };
 
+// add handler
+export const editUser = async (req, res) => {
+  const { fullname, user_email, affiliation } = req.body;
+
+  try {
+    // check content from req.body
+    if (!fullname || !user_email || !affiliation) {
+      throw new Error("All fields are required!");
+    }
+
+    // check if user already exists
+    const userAlreadyExists = await User.findOne({ user_email });
+    if (userAlreadyExists) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists" });
+    }
+
+    // generate temporary password
+    const tempPassword =
+      "Invoice@app" + Math.floor(100000 + Math.random() * 900000).toString();
+
+    // hash password and generate verification token
+    const hashedPassword = bcryptjs.hashSync(tempPassword, 10);
+
+    // generate verification token
+    const verificationToken = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+
+    // save new user
+    const user = new User({
+      fullname,
+      user_email,
+      user_password: hashedPassword,
+      affiliation,
+      verificationToken,
+      verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000,
+    });
+
+    await user.save();
+
+    // generate cookie with jwt
+    generateTokenAndSetCookie(res, user._id);
+    await sendTemporaryHandlerCredentials(user.user_email, tempPassword);
+
+    const savedUser = await User.findOne({ user_email }).populate(
+      "affiliation"
+    );
+    await sendHandlerActivationEmail(
+      savedUser.affiliation.business_email,
+      verificationToken
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "User created successfully",
+      user: { ...user._doc, user_password: undefined },
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 // verify handler registration
 export const verifyHandlerRegistration = async (req, res) => {
   const { code } = req.body;

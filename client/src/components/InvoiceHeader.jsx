@@ -8,16 +8,16 @@ export default function InvoiceHeader({ handlePrint }) {
   const navigate = useNavigate();
 
   return (
-    <header className="flex flex-col md:flex-row items-center justify-between mb-5 pb-2 border-b">
-      <div>
+    <header className="flex flex-col md:flex-row items-center justify-end mb-5 pb-2">
+      {/* <div>
         <Button
-          className="flex items-center"
+          className="flex items-center bg-blue-800"
           onClick={() => window.location.reload()}
         >
           <RiArrowGoBackLine size={18} className="mr-1" />
           Home
         </Button>
-      </div>
+      </div> */}
 
       <div>
         <ul className="flex items-center justify-between flex-wrap gap-x-4">

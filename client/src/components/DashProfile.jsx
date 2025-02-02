@@ -10,13 +10,15 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { app } from "../firebase";
+import { app } from "../firebase.js";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-// import ReactQuill from "react-quill";
+import { Input } from "./Input";
+import { AtSign, Loader, LockKeyhole, User } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function DashProfile() {
-  const { user, logout, loading, error } = useAuthStore();
+  const { user, logout, isLoading, error } = useAuthStore();
 
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -71,7 +73,7 @@ export default function DashProfile() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
-          setFormData({ ...formData, profilePicture: downloadURL });
+          setFormData({ ...formData, avatar: downloadURL });
           setImageFileUploading(false);
         });
       }
@@ -98,8 +100,8 @@ export default function DashProfile() {
     }
 
     try {
-      dispatch(updateStart());
-      const res = await fetch(`/api/user/update/${user._id}`, {
+      // dispatch(updateStart());
+      const res = await fetch(`/server/user/update/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +150,9 @@ export default function DashProfile() {
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
-      <h1 className="sm:my-7 text-center font-semibold text-3xl">Profile</h1>
+      <h1 className="sm:my-7 text-center font-semibold text-3xl text-white">
+        Profile
+      </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
@@ -198,7 +202,8 @@ export default function DashProfile() {
           <Alert color="failure">{imageFileUploadError}</Alert>
         )}
 
-        <TextInput
+        <Input
+          icon={User}
           type="text"
           id="fullname"
           placeholder="fullname"
@@ -208,7 +213,8 @@ export default function DashProfile() {
           }
         />
         <div className="flex items-center flex-col sm:flex-row justify-between gap-3">
-          <TextInput
+          <Input
+            icon={AtSign}
             type="email"
             id="email"
             placeholder="user@company.com"
@@ -220,7 +226,8 @@ export default function DashProfile() {
           />
 
           {/* </div> */}
-          <TextInput
+          <Input
+            icon={LockKeyhole}
             type="password"
             id="password"
             placeholder="Your Password"
@@ -232,31 +239,29 @@ export default function DashProfile() {
           />
         </div>
 
-        <Button
+        <motion.button
+          className="w-full py-3 px-4 bg-gradient-to-r from-green-700 to-emerald-700 rounded-lg hover:border-white hover:from-green-600 hover:to-emerald-700 border border-green-700 focus:outline-none focus:ring-1 focus:ring-green-500 focus:ring-offset-1 focus:ring-offset-gray-900 transition duration-200 cursor-pointer flex items-center justify-center text-white"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           type="submit"
-          gradientDuoTone="purpleToBlue"
-          outline
-          disabled={loading || imageFileUploading}
+          disabled={isLoading || imageFileUploading}
         >
-          {loading ? (
-            <>
-              <Spinner size="sm" />
-              <span className="pl-3">Updating ...</span>
-            </>
+          {isLoading ? (
+            <div className="flex gap-3 items-center text-white">
+              <Loader className="w-6 h-6 animate-spin mx-auto font-bold" />
+              <p>Updating ...</p>
+            </div>
           ) : (
             "Update"
           )}
-        </Button>
+        </motion.button>
 
         {user.role === "Finance Officer" || user.isAdmin ? (
-          <Link to="/create-invoice">
-            <Button
-              type="button"
-              gradientDuoTone="purpleToPink"
-              className="w-full"
-            >
-              Create Invoice
-            </Button>
+          <Link
+            to="/create-invoice"
+            className="w-full py-2 bg-gradient-to-r from-green-700 to-emerald-700 rounded-lg hover:border-yellow-500 hover:from-green-600 hover:to-emerald-700 border border-green-700 focus:outline-none focus:ring-1 focus:ring-green-500 focus:ring-offset-1 focus:ring-offset-gray-900 transition duration-200 cursor-pointer flex items-center justify-center text-yellow-500"
+          >
+            Create Invoice
           </Link>
         ) : (
           <></>

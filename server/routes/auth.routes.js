@@ -7,6 +7,7 @@ import {
   forgotPassword,
   resetPassword,
   CheckAuth,
+  editUser,
 } from "../controllers/auth.controller.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.get("/check-auth", verifyToken, CheckAuth);
 
+router.post("/edit-user/:id", verifyToken, editUser);
 router.post("/add-handler", addHandler);
 router.post("/verify-handler", verifyHandlerRegistration);
 router.post("/user-login", login);

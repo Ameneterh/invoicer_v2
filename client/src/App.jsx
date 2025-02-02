@@ -66,7 +66,7 @@ function App() {
   if (isCheckingAuth) return <Spinner />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-green-900 to-emerald-900 flex relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-tr from-green-950 via-slate-900 to-green-950 flex relative overflow-hidden">
       <FloatingShapes
         color="bg-green-500"
         size="w-64 h-64"

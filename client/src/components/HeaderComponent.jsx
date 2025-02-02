@@ -16,12 +16,14 @@ export default function HeaderComponent({ business }) {
   };
 
   return (
-    <div className="w-full px-5 sm:px-20 py-2 sm:py-4 bg-gray-900 bg-opacity-30 shadow sticky left-0 top-0 flex items-center justify-between z-50">
+    <div className="w-full px-5 sm:px-20 py-2 sm:py-4 bg-slate-950 bg-opacity-80 shadow sticky left-0 top-0 flex items-center justify-between z-50">
       <Link to="/">
-        <div className="text-white font-bold text-4xl flex items-center gap-1">
+        <div className="text-white flex items-center gap-1">
           <img src="./at-personal-logo.png" alt="" className="w-8" />
 
-          <p className="hidden sm:inline-block">Invoicer</p>
+          <p className="hidden sm:inline-block text-2xl ml-3">
+            Invoice <span className="italianno-regular text-3xl">Gen</span>
+          </p>
         </div>
       </Link>
 

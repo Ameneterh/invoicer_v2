@@ -7,6 +7,9 @@ import { Lock } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function PasswordResetPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
   const [user_password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { resetPassword, error, isLoading, message } = useAuthStore();
@@ -42,7 +45,7 @@ export default function PasswordResetPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
+        className="max-w-md w-full bg-green-950 bg-opacity-80 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
       >
         <div className="p-8">
           <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
@@ -51,24 +54,48 @@ export default function PasswordResetPage() {
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           {message && <p className="text-green-500 text-sm mb-4">{message}</p>}
 
-          <form onSubmit={handleSubmit}>
-            <Input
-              icon={Lock}
-              type="password"
-              placeholder="New Password"
-              value={user_password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="relative flex items-center w-full">
+              <Input
+                icon={Lock}
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter New Strong Password"
+                value={user_password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <div
+                className="absolute right-2 inset-y-0 cursor-pointer flex items-center"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="size-5 text-green-500" />
+                ) : (
+                  <Eye className="size-5 text-green-500" />
+                )}
+              </div>
+            </div>
 
-            <Input
-              icon={Lock}
-              type="password"
-              placeholder="Confirm New Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
+            <div className="relative flex items-center w-full">
+              <Input
+                icon={Lock}
+                type={showPassword ? "text" : "password"}
+                placeholder="Confirm New Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+              <div
+                className="absolute right-2 inset-y-0 cursor-pointer flex items-center"
+                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+              >
+                {showPassword ? (
+                  <EyeOff className="size-5 text-green-500" />
+                ) : (
+                  <Eye className="size-5 text-green-500" />
+                )}
+              </div>
+            </div>
 
             <motion.button
               whileHover={{ scale: 1.02 }}

@@ -16,7 +16,15 @@ import { useAuthStore } from "../store/authStore";
 import { useClientStore } from "../store/clientStore";
 import { useInvoiceStore } from "../store/invoiceStore";
 import { Input, InvInput } from "../components/Input";
-import { Mail } from "lucide-react";
+import {
+  CalendarDays,
+  FileDigit,
+  FolderPen,
+  Mail,
+  MapPinCheck,
+  PhoneCall,
+} from "lucide-react";
+import { addClient } from "../../../server/controllers/client.controller";
 
 export default function CreateInvoice() {
   const { user } = useAuthStore();
@@ -30,10 +38,10 @@ export default function CreateInvoice() {
   const [isChecked, setIsChecked] = useState(false);
   const [showInvoice, setShowInvoice] = useState(false);
 
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [client_name, setName] = useState("");
+  const [client_address, setAddress] = useState("");
+  const [client_phone, setPhone] = useState("");
+  const [client_email, setEmail] = useState("");
   const [invNumber, setInvNumber] = useState("");
   const [invDate, setInvDate] = useState("");
   const [invoiceType, setInvoiceType] = useState("");
@@ -55,10 +63,6 @@ export default function CreateInvoice() {
   const [client, setClient] = useState([]);
   const [invoices, setInvoices] = useState([]);
   const { registerClient, getAllClients, getOneClient } = useClientStore();
-
-  console.log(invoices);
-  console.log("affiliation", user.affiliation._id);
-  //   console.log("invoice", invoices.company._id);
 
   const getRegisteredClients = async () => {
     try {
@@ -107,6 +111,23 @@ export default function CreateInvoice() {
     }
   };
 
+  const handleAddClient = async (e) => {
+    e.preventDefault();
+    const staff = user._id;
+    try {
+      await addClient(
+        client_name,
+        client_email,
+        client_address,
+        client_phone,
+        staff
+      );
+      setIsChecked(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <MainLayout>
       <motion.div
@@ -114,7 +135,7 @@ export default function CreateInvoice() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.5 }}
-        className="min-h-screen max-w-7xl w-full mx-auto mt-2 p-4 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl bg-white border border-gray-800"
+        className="min-h-screen max-w-7xl w-full mx-auto mt-2 p-4 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl bg-white"
       >
         <InvoiceHeader handlePrint={handlePrint} />
 
@@ -125,9 +146,10 @@ export default function CreateInvoice() {
               <CompanyDetails business={user.affiliation} />
 
               <ClientDetails
-                name={name}
-                address={address}
-                phone={phone}
+                client_name
+                client_address
+                client_phone
+                client_email
                 inv_number={(invoices.length + 1).toString().padStart(6, "0")}
                 inv_date={invDate}
                 validity={validity}
@@ -195,93 +217,123 @@ export default function CreateInvoice() {
                     </select>
                   )}
                 </div>
-                <div className="md:grid grid-cols-3 gap-10">
-                  <div className="flex flex-col flex-1">
-                    <label htmlFor="client_name" className="text-sm mb-1">
-                      Enter Client's Name
-                    </label>
-                    <InvInput
-                      icon={Mail}
-                      type="text"
-                      name="client_name"
-                      id="client_name"
-                      placeholder={
-                        client.length !== 0
-                          ? client.client_name
-                          : "Enter Client Name"
-                      }
-                      autoComplete="off"
-                      value={client.length !== 0 ? client.client_name : name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                      disabled={isChecked}
-                    />
-                  </div>
-                  <div className="flex flex-col flex-1">
-                    {" "}
-                    <label htmlFor="client_phone" className="text-sm mb-1">
-                      Enter Client's Phone
-                    </label>
-                    <InvInput
-                      icon={Mail}
-                      type="text"
-                      name="client_phone"
-                      id="client_phone"
-                      placeholder="Enter Client Phone"
-                      autoComplete="off"
-                      value={client.length !== 0 ? client.client_phone : phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      disabled={isChecked}
-                    />
-                  </div>
-                  <div className="flex flex-col flex-1">
-                    <label htmlFor="client_email" className="text-sm mb-1">
-                      Enter Client's Email
-                    </label>
-                    <InvInput
-                      icon={Mail}
-                      type="text"
-                      name="client_email"
-                      id="client_email"
-                      placeholder="Enter Client Email"
-                      autoComplete="off"
-                      className="p-2"
-                      value={client.length !== 0 ? client.client_email : email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      disabled={isChecked}
-                    />
-                  </div>
-                </div>
 
-                <div className="flex flex-col flex-1">
-                  <label htmlFor="client_address" className="text-sm mb-1">
-                    Enter Client's Address
-                  </label>
-                  <InvInput
-                    icon={Mail}
-                    rows={2}
-                    name="client_address"
-                    id="client_address"
-                    placeholder="Enter Client Address"
-                    autoComplete="off"
-                    value={
-                      client.length !== 0 ? client.client_address : address
-                    }
-                    onChange={(e) => setAddress(e.target.value)}
-                    disabled={isChecked}
-                  />
-                </div>
+                {/* save client functionality */}
+                <form onSubmit={handleAddClient}>
+                  <div className="md:grid grid-cols-3 gap-10">
+                    <div className="flex flex-col flex-1">
+                      <label htmlFor="client_name" className="text-sm mb-1">
+                        Enter Client's Name
+                      </label>
+                      <InvInput
+                        icon={FolderPen}
+                        type="text"
+                        name="client_name"
+                        id="client_name"
+                        placeholder={
+                          client.length !== 0
+                            ? client.client_name
+                            : "Enter Client Name"
+                        }
+                        autoComplete="off"
+                        value={
+                          client.length !== 0 ? client.client_name : client_name
+                        }
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        disabled={isChecked}
+                      />
+                    </div>
+                    <div className="flex flex-col flex-1">
+                      {" "}
+                      <label htmlFor="client_phone" className="text-sm mb-1">
+                        Enter Client's Phone
+                      </label>
+                      <InvInput
+                        icon={PhoneCall}
+                        type="text"
+                        name="client_phone"
+                        id="client_phone"
+                        placeholder="Enter Client Phone"
+                        autoComplete="off"
+                        value={
+                          client.length !== 0
+                            ? client.client_phone
+                            : client_phone
+                        }
+                        onChange={(e) => setPhone(e.target.value)}
+                        disabled={isChecked}
+                      />
+                    </div>
+                    <div className="flex flex-col flex-1">
+                      <label htmlFor="client_email" className="text-sm mb-1">
+                        Enter Client's Email
+                      </label>
+                      <InvInput
+                        icon={Mail}
+                        type="text"
+                        name="client_email"
+                        id="client_email"
+                        placeholder="Enter Client Email"
+                        autoComplete="off"
+                        className="p-2"
+                        value={
+                          client.length !== 0
+                            ? client.client_email
+                            : client_email
+                        }
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={isChecked}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-end gap-2 mb-4">
+                    <div className="flex flex-col flex-1">
+                      <label htmlFor="client_address" className="text-sm mb-1">
+                        Enter Client's Address
+                      </label>
+                      <InvInput
+                        icon={MapPinCheck}
+                        name="client_address"
+                        id="client_address"
+                        placeholder="Enter Client Address"
+                        autoComplete="off"
+                        value={
+                          client.length !== 0
+                            ? client.client_address
+                            : client_address
+                        }
+                        onChange={(e) => setAddress(e.target.value)}
+                        disabled={isChecked}
+                      />
+                    </div>
+
+                    {isChecked ? (
+                      ""
+                    ) : (
+                      <motion.button
+                        className="mt-5 py-2 px-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg hover:from-green-600 hover:to-emerald-700 hover:text-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:ring-offset-1 focus:ring-offset-gray-900 transition duration-200 cursor-pointer flex items-center justify-center"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        type="submit"
+                      >
+                        Add This Client To Database
+                      </motion.button>
+                    )}
+                  </div>
+                </form>
               </article>
 
               {/* invoice details */}
               <article className="flex flex-col gap-y-3 px-5 border border-gray-300 rounded">
-                <div className="md:grid grid-cols-4 gap-10 mt-3">
+                <div className="md:grid grid-cols-4 gap-10 my-3">
                   <div className="flex flex-col flex-1">
                     <label htmlFor="inv_number" className="text-sm mb-1">
                       Invoice Number
                     </label>
                     <InvInput
-                      icon={Mail}
+                      icon={FileDigit}
                       type="text"
                       name="inv_number"
                       id="inv_number"
@@ -297,7 +349,7 @@ export default function CreateInvoice() {
                       Invoice Date
                     </label>
                     <InvInput
-                      icon={Mail}
+                      icon={CalendarDays}
                       type="date"
                       name="inv_date"
                       id="inv_date"
@@ -369,13 +421,14 @@ export default function CreateInvoice() {
               </article>
 
               {/* preview button */}
-              <Button
-                type="primary"
+              <motion.button
+                className="w-full sm:w-1/2 mx-auto py-3 px-4 bg-gradient-to-r from-green-700 to-emerald-700 rounded-lg hover:border-white hover:from-green-600 hover:to-emerald-700 border border-green-700 focus:outline-none focus:ring-1 focus:ring-green-500 focus:ring-offset-1 focus:ring-offset-gray-900 transition duration-200 cursor-pointer flex items-center justify-center text-white"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => setShowInvoice(true)}
-                className="font-bold py-2 px-8 rounded"
               >
                 Preview Invoice
-              </Button>
+              </motion.button>
             </div>
           </>
         )}

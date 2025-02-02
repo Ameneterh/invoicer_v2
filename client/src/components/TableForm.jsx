@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+// import { Button } from "antd";
 
 export default function TableForm({
   jobTitle,
@@ -89,65 +90,7 @@ export default function TableForm({
   };
 
   return (
-    <div className="px-4 mt-5 mb-10">
-      {/* display/show table items */}
-      <div className="flex flex-col gap-y-3 border-2 rounded mb-10">
-        <h1 className="mb-1 text-xl font-bold">Added Item/Job</h1>
-        <table width="100%">
-          <thead>
-            <tr className="bg-gray-50 h-10 border-none">
-              <td className="font-bold px-2 text-center">S/N</td>
-              <td className="font-bold px-2 text-left">Item/Job Description</td>
-              <td className="font-bold px-2 text-center">Qty</td>
-              <td className="font-bold px-2 text-center">Rate</td>
-              <td className="font-bold px-2 text-center">Amount</td>
-              <td className="font-bold px-2 text-center">Actions</td>
-            </tr>
-          </thead>
-          {list.map(
-            (
-              { id, jobTitle, jobDescription, quantity, rate, amount },
-              index
-            ) => (
-              <React.Fragment key={id}>
-                <tbody>
-                  <tr>
-                    <td className="px-2 text-center">{index + 1}</td>
-                    <td className="px-2 text-left">
-                      <p className="font-bold">
-                        {jobTitle}
-                        <span className="block font-normal">
-                          {jobDescription}
-                        </span>
-                      </p>
-                    </td>
-                    <td className="px-2 text-right">{quantity}</td>
-                    <td className="px-2 text-right">{rate}</td>
-                    <td className="px-2 text-right">{amount}</td>
-                    <td className="px-2 text-center">
-                      <span onClick={() => deleteItem(id)}>
-                        <MdOutlineDelete className="text-2xl text-red-600 hover:scale-150 transition-all duration-300" />
-                      </span>
-                      <span onClick={() => editItem(id)}>
-                        <CiEdit className="text-2xl text-green-600 hover:scale-150 transition-all duration-300 ml-6" />
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </React.Fragment>
-            )
-          )}
-        </table>
-        <div>
-          Gross Total:{" "}
-          {total.toLocaleString("en-US", {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
-          })}
-        </div>
-      </div>
-
-      {/* enter job details */}
+    <div className="mt-5 mb-10">
       <div className="flex items-center w-full gap-3 mb-5">
         <h1 className="text-xl font-bold">Enter Job Details</h1>
         <p className="flex-1 h-[1px] bg-gray-600"></p>
@@ -234,6 +177,65 @@ export default function TableForm({
           {isEditing ? "Add Edited Item" : "Add New Invoice Item"}
         </button>
       </form>
+
+      {/* show table items */}
+      <div className="flex flex-col gap-y-3 border-2 rounded p-4">
+        <h1 className="mb-1 text-xl font-bold">Added Item/Job</h1>
+        <table width="100%">
+          <thead>
+            <tr className="bg-gray-100 h-10 border-none">
+              <td className="px-2 font-bold text-center">S/N</td>
+              <td className="px-2 font-bold">Item/Job Description</td>
+              <td className="px-2 font-bold">Qty</td>
+              <td className="px-2 font-bold">Rate</td>
+              <td className="px-2 font-bold">Amount</td>
+              <td className="px-2 font-bold">Actions</td>
+            </tr>
+          </thead>
+          {list.map(
+            (
+              { id, jobTitle, jobDescription, quantity, rate, amount },
+              index
+            ) => (
+              <React.Fragment key={id}>
+                <tbody>
+                  <tr>
+                    <td className="text-center">{index + 1}</td>
+                    <td className="px-2">
+                      <p className="font-bold">
+                        {jobTitle}
+                        <span className="block font-normal">
+                          {jobDescription}
+                        </span>
+                      </p>
+                    </td>
+                    <td className="px-2 ">{quantity}</td>
+                    <td className="px-2 ">{rate}</td>
+                    <td className="px-2 amount">{amount}</td>
+                    <td className="px-2 ">
+                      <div className="flex items-center">
+                        <span onClick={() => deleteItem(id)}>
+                          <MdOutlineDelete className="text-2xl text-red-600 hover:scale-150 transition-all duration-300" />
+                        </span>
+                        <span onClick={() => editItem(id)}>
+                          <CiEdit className="text-2xl text-green-600 hover:scale-150 transition-all duration-300 ml-6" />
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </React.Fragment>
+            )
+          )}
+        </table>
+        <div>
+          Gross Total:{" "}
+          {total.toLocaleString("en-US", {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          })}
+        </div>
+      </div>
     </div>
   );
 }

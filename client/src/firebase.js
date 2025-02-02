@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: "starlight-blog.firebaseapp.com",
-  projectId: "starlight-blog",
-  storageBucket: "starlight-blog.appspot.com",
-  messagingSenderId: "665922107030",
-  appId: "1:665922107030:web:298b5d573db6751ac534b7",
+  apiKey: "AIzaSyBAClQXyNUufgCF7QGSbO1MYD5gkEd-8tI",
+  authDomain: "invoice-gen-v2.firebaseapp.com",
+  projectId: "invoice-gen-v2",
+  storageBucket: "invoice-gen-v2.firebasestorage.app",
+  messagingSenderId: "1020522331262",
+  appId: "1:1020522331262:web:813082a91f30badfa62c2f",
 };
 
 // Initialize Firebase
