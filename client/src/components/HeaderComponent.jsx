@@ -29,10 +29,7 @@ export default function HeaderComponent({ business }) {
 
       {user ? (
         <div className="bg-white px-2 py-1 rounded flex items-center gap-2">
-          <Link
-            to={"/user-dashboard?tab=profile"}
-            className="flex items-center"
-          >
+          <Link to={"/user-dashboard?tab=dash"} className="flex items-center">
             <img src={user.avatar} className="rounded-full h-8 w-8" />
           </Link>
           <p className="font-bold text-md text-blue-800 uppercase cursor-pointer underline underline-offset-2 hover:scale-110 transition-all duration-500">

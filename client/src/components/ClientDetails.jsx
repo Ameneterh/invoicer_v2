@@ -14,7 +14,7 @@ export default function ClientDetails({
 
   return (
     <section className="mb-3 flex flex-col items-start justify-between p-4 border-2 rounded">
-      <div className="my-3 text-center text-3xl w-full prata-regular">
+      <div className="my-3 text-center text-2xl w-full prata-regular">
         {invoiceType === "proforma" ? (
           <p>Proforma Invoice</p>
         ) : (
@@ -26,10 +26,10 @@ export default function ClientDetails({
         {/* client name, address, phone, email */}
         <div>
           <p className="font-bold">Invoiced to:</p>
-          <div className="ml-5">
+          <div className="ml-5 flex flex-col">
             <h1 className="font-bold uppercase">{client_name}</h1>
-            <p>{client_address}</p>
-            <p className="flex items-center gap-2">
+            <p className="text-xs">{client_address}</p>
+            <p className="flex items-center gap-2 text-xs">
               <span>{client_phone}</span>
               <span>{client_email}</span>
             </p>
@@ -37,15 +37,15 @@ export default function ClientDetails({
         </div>
 
         {/* invoice number, invoice date, due date */}
-        <div className="flex flex-col items-end justify-end">
+        <div className="flex flex-col items-end justify-end text-xs">
           <ul>
-            <li className="p-1">
+            <li className="px-2">
               <span className="font-bold">Inv Number:</span> {inv_number}
             </li>
-            <li className="p-1 bg-slate-100 py-1 rounded">
+            <li className="py-1 px-2 bg-slate-100 rounded">
               <span className="font-bold">Inv Date:</span> {inv_date}
             </li>
-            <li className="p-1">
+            <li className="px-2">
               {invoiceType === "proforma" ? (
                 <>
                   <span className="font-bold">Validity:</span> {validity} days

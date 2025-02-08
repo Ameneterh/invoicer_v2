@@ -7,10 +7,12 @@ import {
   HiOutlineUserGroup,
   HiUser,
 } from "react-icons/hi";
+import { MdOutlineCreateNewFolder, MdAddBusiness } from "react-icons/md";
 import { TbMessage } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { Button, Sidebar } from "flowbite-react";
+import Divider from "./Divider";
 
 export default function DashSidebar() {
   const { error, isLoading, logout, user } = useAuthStore();
@@ -44,54 +46,50 @@ export default function DashSidebar() {
 
   return (
     // <div className="min-h-screen w-full">
-    <Sidebar className="w-full bg-transparent sm:min-h-screen">
-      <Sidebar.Items className="">
+    <Sidebar className="w-full bg-transparent sm:min-h-screen flex flex-col justify-between">
+      <Sidebar.Items className="mb-5">
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           {user && (
-            <Link to="/user-dashboard?tab=dash">
-              <Sidebar.Item
-                active={tab === "dash" || !tab}
-                icon={HiChartPie}
-                as="div"
-              >
-                Dashboard
-              </Sidebar.Item>
-            </Link>
-          )}
-          <Link to="/user-dashboard?tab=profile">
-            <Sidebar.Item
-              active={tab === "profile"}
-              icon={HiUser}
-              label={user.isAdmin ? "Admin" : "User"}
-              labelColor="dark"
-              as="div"
-            >
-              Profile
-            </Sidebar.Item>
-          </Link>
-
-          {user.isAdmin && (
-            <Link to="/user-dashboard?tab=posts">
-              <Sidebar.Item
-                active={tab === "posts"}
-                icon={HiDocumentText}
-                as="div"
-              >
-                Posts
-              </Sidebar.Item>
-            </Link>
-          )}
-
-          {user.isAdmin && (
-            <Link to="/user-dashboard?tab=messages">
-              <Sidebar.Item
-                active={tab === "messages"}
-                icon={TbMessage}
-                as="div"
-              >
-                Messages
-              </Sidebar.Item>
-            </Link>
+            <>
+              <Link to="/user-dashboard?tab=dash">
+                <Sidebar.Item
+                  active={tab === "dash" || !tab}
+                  icon={HiChartPie}
+                  as="div"
+                >
+                  Dashboard
+                </Sidebar.Item>
+              </Link>
+              <Link to="/user-dashboard?tab=profile">
+                <Sidebar.Item
+                  active={tab === "profile"}
+                  icon={HiUser}
+                  label={user.isAdmin ? "Admin" : "User"}
+                  labelColor="dark"
+                  as="div"
+                >
+                  Profile
+                </Sidebar.Item>
+              </Link>
+              <Link to="/user-dashboard?tab=invoices">
+                <Sidebar.Item
+                  active={tab === "invoices"}
+                  icon={HiDocumentText}
+                  as="div"
+                >
+                  Invoices
+                </Sidebar.Item>
+              </Link>
+              <Link to="/user-dashboard?tab=clients">
+                <Sidebar.Item
+                  active={tab === "clients"}
+                  icon={TbMessage}
+                  as="div"
+                >
+                  Clients
+                </Sidebar.Item>
+              </Link>
+            </>
           )}
 
           {user.isAdmin && (
@@ -105,17 +103,18 @@ export default function DashSidebar() {
                   Users
                 </Sidebar.Item>
               </Link>
-              <Link to="/user-dashboard?tab=comments">
+              <Link to="/user-dashboard?tab=businesses">
                 <Sidebar.Item
-                  active={tab === "comments"}
+                  active={tab === "businesses"}
                   icon={HiAnnotation}
                   as="div"
                 >
-                  Comments
+                  Businesses
                 </Sidebar.Item>
               </Link>
             </>
           )}
+
           <Sidebar.Item
             icon={HiArrowSmRight}
             className="cursor-pointer"
@@ -123,6 +122,28 @@ export default function DashSidebar() {
           >
             Sign Out
           </Sidebar.Item>
+        </Sidebar.ItemGroup>
+      </Sidebar.Items>
+
+      <Divider />
+
+      {/* user actions ------------- create invoice, add client */}
+      <Sidebar.Items className="">
+        <Sidebar.ItemGroup className="flex flex-col gap-1">
+          {user && (
+            <>
+              <Link to="/create-invoice">
+                <Sidebar.Item icon={MdOutlineCreateNewFolder} as="div">
+                  Invoice
+                </Sidebar.Item>
+              </Link>
+              <Link to="/add-client">
+                <Sidebar.Item icon={MdAddBusiness} as="div">
+                  Add Client
+                </Sidebar.Item>
+              </Link>
+            </>
+          )}
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

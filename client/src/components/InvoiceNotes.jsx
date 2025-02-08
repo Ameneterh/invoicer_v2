@@ -5,7 +5,7 @@ export default function InvoiceNotes() {
   const { user } = useAuthStore();
 
   return (
-    <section className="mb-5 flex flex-col sm:flex-row justify-between p-4 bg-slate-100 rounded max-w-96">
+    <section className="mb-5 flex flex-col sm:flex-row justify-between p-2 bg-gray-100 rounded max-w-96 text-sm">
       <ul className="flex-1">
         <li>
           Bank Name:{" "}

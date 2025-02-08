@@ -10,7 +10,11 @@ export default function CompanyDetails({ business }) {
           <img src={business.business_logo} className="w-14 h-14" />
           <div className="flex flex-col text-sm">
             <p className="text-3xl font-bold">{business.business_name}</p>
-            <div className="flex justify-between">
+            <p className="flex items-start gap-2 text-xs">
+              <MdLocationCity />
+              {business.business_address}
+            </p>
+            <div className="flex items-center gap-3 text-xs">
               <p className="flex items-center gap-2">
                 <MdEmail />
                 {business.business_email}
@@ -20,14 +24,9 @@ export default function CompanyDetails({ business }) {
                 {business.business_phone}
               </p>
             </div>
-            <p className="flex items-start gap-2">
-              <MdLocationCity />
-              {business.business_address}
-            </p>
           </div>
         </div>
       </div>
-      <Divider />
     </section>
   );
 }

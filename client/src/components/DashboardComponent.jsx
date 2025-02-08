@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  HiAnnotation,
-  HiArrowNarrowUp,
-  HiDocumentText,
-  HiOutlineUserGroup,
-} from "react-icons/hi";
+import { FaRegSadTear } from "react-icons/fa";
+import { IoMdCheckmarkCircleOutline, IoIosTimer } from "react-icons/io";
+import { SiParamountplus } from "react-icons/si";
+import { FiPieChart } from "react-icons/fi";
+import { PiInvoiceBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import AdminDashboardComponent from "./AdminDashboardComponent";
+import { UserDashboardComponents } from "./AdminDashboardComponent";
+import Divider from "./Divider";
 
 export default function DashboardComponent() {
   const [users, setUsers] = useState([]);
@@ -18,6 +20,9 @@ export default function DashboardComponent() {
   const [lastMonthUsers, setLastMonthUsers] = useState(0);
   const [lastMonthPosts, setLastMonthPosts] = useState(0);
   const [lastMonthComments, setLastMonthComments] = useState(0);
+
+  // to change later
+  const [invoices, setInvoices] = useState("");
 
   const { user } = useAuthStore();
 
@@ -71,69 +76,171 @@ export default function DashboardComponent() {
     }
   }, [user]);
 
-  return (
-    <div className="w-full p-3">
-      <div className="flex-wrap flex gap-4 justify-between">
-        {/* show total number of registered users */}
-        <div className="flex flex-col p-3 bg-gray-400 bg-opacity-50 gap-4 md:w-72 w-full rounded-md shadow-md">
-          <div className="flex justify-between">
-            <div className="">
-              <h3 className="text-gray-500 text-md uppercase">
-                # of Registered Users
-              </h3>
-              <p className="text-2xl">{totalUsers}</p>
-            </div>
-            <HiOutlineUserGroup className="bg-teal-600 text-white rounded-full text-5xl p-3 shadow-lg" />
-          </div>
-          <div className="flex gap-2 text-sm">
-            <span className="text-green-500 flex items-center">
-              <HiArrowNarrowUp />
-              {lastMonthUsers}
-            </span>
-            <div className="text-gray-500">Last Month</div>
-          </div>
-        </div>
+  let paymentHistory = [];
+  for (let i = 0; i < invoices.length; i++) {
+    let history = [];
+    if (invoices[i].paymentRecords !== undefined) {
+      history = [...paymentHistory, invoices[i].paymentRecords];
+      paymentHistory = [].concat.apply([], history);
+    }
+  }
 
-        {/* 2nd */}
-        <div className="flex flex-col p-3 bg-gray-400 bg-opacity-50 gap-4 md:w-72 w-full rounded-md shadow-md">
-          {/* show total number of businesses */}
-          <div className="flex justify-between">
-            <div className="">
-              <h3 className="text-gray-500 text-md uppercase">
-                # of Registered Businesses
-              </h3>
-              <p className="text-2xl">{totalComments}</p>
-            </div>
-            <HiAnnotation className="bg-indigo-600 text-white rounded-full text-5xl p-3 shadow-lg" />
-          </div>
-          <div className="flex gap-2 text-sm">
-            <span className="text-green-500 flex items-center">
-              <HiArrowNarrowUp />
-              {lastMonthComments}
-            </span>
-            <div className="text-gray-500">Last Month</div>
-          </div>
-        </div>
+  //sort payment history by date
+  const sortHistoryByDate = paymentHistory.sort(function (a, b) {
+    var c = new Date(a.datePaid);
+    var d = new Date(b.datePaid);
+    return d - c;
+  });
+
+  return (
+    <div className="flex flex-col gap-4 w-full p-3">
+      <div className="flex-wrap flex gap-4 justify-between">
+        {/* admin views ----------------- total users, invoices, businesses */}
+        {/* show total number of registered users */}
+        <AdminDashboardComponent
+          totalUsers={totalUsers}
+          type="Users"
+          heading={"all users"}
+          lastMonthUsers={lastMonthUsers}
+        />
+
+        {/* show total number of businesses */}
+        <AdminDashboardComponent
+          totalUsers={totalComments}
+          type="Businesses"
+          heading={"all businesses"}
+          lastMonthUsers={lastMonthComments}
+        />
 
         {/* total invoices created */}
-        <div className="flex flex-col p-3 bg-gray-400 bg-opacity-50 gap-4 md:w-72 w-full rounded-md shadow-md">
-          <div className="flex justify-between">
-            <div className="">
-              <h3 className="text-gray-500 text-md uppercase">
-                Total Invoices Created
-              </h3>
-              <p className="text-2xl">{totalPosts}</p>
-            </div>
-            <HiDocumentText className="bg-lime-600 text-white rounded-full text-5xl p-3 shadow-lg" />
-          </div>
-          <div className="flex gap-2 text-sm">
-            <span className="text-green-500 flex items-center">
-              <HiArrowNarrowUp />
-              {lastMonthPosts}
-            </span>
-            <div className="text-gray-500">Last Month</div>
-          </div>
-        </div>
+        <AdminDashboardComponent
+          totalUsers={totalPosts}
+          type="Clients"
+          heading={"all clients"}
+          lastMonthUsers={lastMonthPosts}
+        />
+
+        {/* total invoices created */}
+        <AdminDashboardComponent
+          totalUsers={totalPosts}
+          type="Invoices"
+          heading={"all invoices"}
+          lastMonthUsers={lastMonthPosts}
+        />
+      </div>
+
+      <Divider />
+      <div className="flex-wrap flex gap-4 justify-between">
+        {/* total for all invoices */}
+        <UserDashboardComponents
+          totalPaid={100000}
+          text={"Total for Invoices"}
+          icon={<SiParamountplus />}
+          bgColor="white"
+          indicator="bg-blue-600"
+        />
+
+        {/* total received for invoices raised */}
+        <UserDashboardComponents
+          totalPaid={10000}
+          text={"Total Payments Received"}
+          icon={<IoMdCheckmarkCircleOutline />}
+          bgColor="white"
+          indicator="bg-green-800"
+        />
+
+        {/* total pending for invoices raised */}
+        <UserDashboardComponents
+          totalPaid={90000}
+          text={"Total Amount Pending"}
+          icon={<FiPieChart />}
+          bgColor="white"
+          // indicator="green-950"
+        />
+
+        {/* total number of invoices raised */}
+        <UserDashboardComponents
+          totalPaid={2}
+          text={"Number of Invoices Raised"}
+          icon={<PiInvoiceBold />}
+          bgColor="white"
+          // indicator="green-950"
+        />
+
+        {/* number of paid invoices */}
+        <UserDashboardComponents
+          totalPaid={1}
+          text={"Paid Invoices"}
+          icon={<IoMdCheckmarkCircleOutline />}
+          bgColor="white"
+          indicator="bg-green-800"
+        />
+
+        {/* number of partially paid invoices */}
+        <UserDashboardComponents
+          totalPaid={0}
+          text={"Partially Paid Invoices"}
+          icon={<FiPieChart />}
+          bgColor="white"
+          // indicator="green-950"
+        />
+
+        {/* number of unpaid invoices */}
+        <UserDashboardComponents
+          totalPaid={1}
+          text={"Unpaid Invoices"}
+          icon={<FaRegSadTear />}
+          bgColor="white"
+          indicator="bg-orange-400"
+        />
+
+        {/* number of invoices overdue */}
+        <UserDashboardComponents
+          totalPaid={1}
+          text={"Overdue Invoices"}
+          icon={<IoIosTimer />}
+          bgColor="white"
+          indicator="bg-red-600"
+        />
+      </div>
+      <div className="flex-wrap flex gap-4 justify-between"></div>
+
+      {/* display recent payments */}
+      <div className="w-full bg-slate-50 p-2 rounded">
+        <h1 className="text-center py-4 font-bold">
+          {paymentHistory.length
+            ? "Recent Payments"
+            : "No payments received yet"}
+        </h1>
+        <table className="w-full">
+          <tbody>
+            {/* {paymentHistory?.length !== 0 && ( */}
+            <tr>
+              <th style={{ padding: "15px" }}></th>
+              <th style={{ padding: "15px" }}>Paid By</th>
+              <th style={{ padding: "15px" }}>Date Paid</th>
+              <th style={{ padding: "15px" }}>Amount Paid</th>
+              <th style={{ padding: "15px" }}>Payment Method</th>
+              <th style={{ padding: "15px" }}>Note</th>
+            </tr>
+            {/* )} */}
+
+            {sortHistoryByDate?.slice(-10).map((record) => (
+              <tr className="" key={record?._id}>
+                <td>{/* <button>{record?.paidBy?.charAt(0)}</button> */}</td>
+                {/* <td>{record?.paidBy}</td>
+                <td>{moment(record?.datePaid).format("MMMM Do YYYY")}</td>
+                <td>
+                  <h3 style={{ color: "#00A86B", fontSize: "14px" }}>
+                    {toCommas(record?.amountPaid)}
+                  </h3>
+                </td>
+                <td>{record?.paymentMethod}</td>
+                <td>{record?.note}</td> */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       {/* tables */}
       <div className="flex flex-wrap gap-4 py-3 mx-auto justify-center">

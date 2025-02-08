@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-// import { Button } from "antd";
 
 export default function TableForm({
   jobTitle,
@@ -90,7 +89,7 @@ export default function TableForm({
   };
 
   return (
-    <div className="mt-5 mb-10">
+    <div className="px-4 mt-5 mb-10">
       <div className="flex items-center w-full gap-3 mb-5">
         <h1 className="text-xl font-bold">Enter Job Details</h1>
         <p className="flex-1 h-[1px] bg-gray-600"></p>
@@ -179,17 +178,17 @@ export default function TableForm({
       </form>
 
       {/* show table items */}
-      <div className="flex flex-col gap-y-3 border-2 rounded p-4">
+      <div className="flex flex-col gap-y-3 border-2 rounded">
         <h1 className="mb-1 text-xl font-bold">Added Item/Job</h1>
         <table width="100%">
           <thead>
-            <tr className="bg-gray-100 h-10 border-none">
-              <td className="px-2 font-bold text-center">S/N</td>
-              <td className="px-2 font-bold">Item/Job Description</td>
-              <td className="px-2 font-bold">Qty</td>
-              <td className="px-2 font-bold">Rate</td>
-              <td className="px-2 font-bold">Amount</td>
-              <td className="px-2 font-bold">Actions</td>
+            <tr className="bg-gray-50 h-10 border-none">
+              <td className="font-bold text-center">S/N</td>
+              <td className="font-bold text-center">Item/Job Description</td>
+              <td className="font-bold text-center">Qty</td>
+              <td className="font-bold text-center">Rate</td>
+              <td className="font-bold text-center">Amount</td>
+              <td className="font-bold text-center">Actions</td>
             </tr>
           </thead>
           {list.map(
@@ -200,8 +199,8 @@ export default function TableForm({
               <React.Fragment key={id}>
                 <tbody>
                   <tr>
-                    <td className="text-center">{index + 1}</td>
-                    <td className="px-2">
+                    <td>{index + 1}</td>
+                    <td>
                       <p className="font-bold">
                         {jobTitle}
                         <span className="block font-normal">
@@ -209,18 +208,16 @@ export default function TableForm({
                         </span>
                       </p>
                     </td>
-                    <td className="px-2 ">{quantity}</td>
-                    <td className="px-2 ">{rate}</td>
-                    <td className="px-2 amount">{amount}</td>
-                    <td className="px-2 ">
-                      <div className="flex items-center">
-                        <span onClick={() => deleteItem(id)}>
-                          <MdOutlineDelete className="text-2xl text-red-600 hover:scale-150 transition-all duration-300" />
-                        </span>
-                        <span onClick={() => editItem(id)}>
-                          <CiEdit className="text-2xl text-green-600 hover:scale-150 transition-all duration-300 ml-6" />
-                        </span>
-                      </div>
+                    <td>{quantity}</td>
+                    <td>{rate}</td>
+                    <td className="amount">{amount}</td>
+                    <td className="">
+                      <span onClick={() => deleteItem(id)}>
+                        <MdOutlineDelete className="text-2xl text-red-600 hover:scale-150 transition-all duration-300" />
+                      </span>
+                      <span onClick={() => editItem(id)}>
+                        <CiEdit className="text-2xl text-green-600 hover:scale-150 transition-all duration-300 ml-6" />
+                      </span>
                     </td>
                   </tr>
                 </tbody>

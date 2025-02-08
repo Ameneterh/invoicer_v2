@@ -12,16 +12,16 @@ export default function InvoiceFooter() {
     <footer className="flex flex-col gap-8">
       <div className="flex gap-x-4 border-t-2 pt-3 justify-between">
         <div>
-          <p>Invoice prepared by:</p>
+          <p className="text-xs">Invoice prepared by:</p>
           <ul className="">
             <li>
               <img src={user.staff_signature} className="h-16" />
             </li>
-            <li className="font-bold uppercase">{user.fullname}</li>
+            <li className="font-bold uppercase text-sm">{user.fullname}</li>
             <li className="text-xs">{user.user_email}</li>
           </ul>
         </div>
-        <div className="flex flex-col mt-5 px-3 py-2 rounded-md w-96 gap-y-8">
+        <div className="flex flex-col mt-5 px-3 py-2 rounded-md w-96 gap-y-8 text-xs">
           <div className="flex gap-x-1">
             <p>Received by:</p>
             <p className="flex-1 border-b-2"></p>

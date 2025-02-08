@@ -18,7 +18,7 @@ export default function LoginPage() {
 
     try {
       await login(user_email, user_password);
-      navigate("/");
+      navigate("/user-dashboard?tab=dash");
     } catch (error) {
       console.log(error);
     }
